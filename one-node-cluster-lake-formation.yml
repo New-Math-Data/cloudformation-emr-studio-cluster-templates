@@ -56,6 +56,3 @@ Outputs:
     Value:
       Ref: EmrCluster
     Description: The ID of the EMR Cluster
-
-
---kerberos-attributes Realm=EC2.INTERNAL,KdcAdminPassword=MyClusterKDCAdminPassword 
