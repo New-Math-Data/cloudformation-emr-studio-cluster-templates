@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SubnetId:
+    Type: "String"
+  ClusterName:
+    Type: "String"
+    Default: "Example_One_Node_Cluster"
+  EmrRelease:
+    Type: "String"
+    Default: "emr-6.2.0"
+    AllowedValues:
+      - "emr-6.2.0"
+      - "emr-5.32.0"
+  ClusterInstanceType:
+    Type: "String"
+    Default: "m5.xlarge"
+    AllowedValues:
+      - "m5.xlarge"
+      - "m5.2xlarge"
+  MinimumCapacityUnits:
+    Type: String
+  MaximumCapacityUnits:
+    Type: String
+  MaximumCoreCapacityUnits:
+    Type: String
+  MaximumOnDemandCapacityUnits:
+    Type: String
+  UnitType:
+    Type: String
+Resources:
+  cluster:
+    Type: "AWS::EMR::Cluster"
+    Properties:
+      Instances:
+        MasterInstanceGroup:
+          InstanceCount: 1
+          InstanceType: !Ref InstanceType
+          Market: ON_DEMAND
+          Name: primary
+        CoreInstanceGroup:
+          InstanceCount: 1
+          InstanceType: !Ref ClusterInstanceType
+          Market: ON_DEMAND
+          Name: core
+        Ec2SubnetId: !Ref SubnetId
+      Name: !Ref ClusterName
+      JobFlowRole: EMR_EC2_DefaultRole
+      ServiceRole: EMR_DefaultRole
+      ReleaseLabel: !Ref EmrRelease
+      ManagedScalingPolicy:
+        ComputeLimits:
+          MinimumCapacityUnits: !Ref MinimumCapacityUnits
+          MaximumCapacityUnits: !Ref MaximumCapacityUnits
+          MaximumCoreCapacityUnits: !Ref MaximumCoreCapacityUnits
+          MaximumOnDemandCapacityUnits: !Ref MaximumOnDemandCapacityUnits
+          UnitType: !Ref UnitType
