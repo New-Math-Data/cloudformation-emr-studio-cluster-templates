@@ -41,6 +41,9 @@ Resources:
       SecurityConfiguration: !Ref SecurityConfigName
       LogUri:
         Fn::Sub: "s3://aws-logs-${AWS::AccountId}-${AWS::Region}/elasticmapreduce/"
+      KerberosAttributes:
+        KdcAdminPassword: CfnIntegrationTest-1
+        Realm: EC2.INTERNAL
       Instances:
         TerminationProtected: false
         Ec2SubnetId: !Ref SubnetId
@@ -53,3 +56,6 @@ Outputs:
     Value:
       Ref: EmrCluster
     Description: The ID of the EMR Cluster
+
+
+--kerberos-attributes Realm=EC2.INTERNAL,KdcAdminPassword=MyClusterKDCAdminPassword 
